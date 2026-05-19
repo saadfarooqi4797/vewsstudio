@@ -109,7 +109,6 @@ export function Intro({ onDone }: { onDone: () => void }) {
         }}
       >
         <source src="/intro.webm" type="video/webm" />
-        <source src="/intro.mp4" type="video/mp4" />
       </video>
 
       {/* Cream wash that intensifies as we punch through the pupil */}
