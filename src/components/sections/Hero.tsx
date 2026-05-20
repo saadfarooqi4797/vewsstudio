@@ -7,7 +7,7 @@ export function Hero() {
       <Star className="absolute top-28 left-[8%] text-ink animate-float" size={32} />
       <Burst className="absolute top-40 right-[12%] text-blush animate-float" size={70} />
       <Scribble className="absolute bottom-32 left-[15%] text-ink/60" size={140} />
-      <EyeDoodle className="absolute top-[42%] right-[6%] text-ink rotate-2p hidden md:block" size={90} />
+      <Star className="absolute top-[42%] right-[6%] text-blush rotate-2p hidden md:block animate-wobble" size={56} />
       <Star className="absolute bottom-20 right-[20%] text-ink animate-wobble" size={28} />
 
       <div className="max-w-[1400px] mx-auto relative">
