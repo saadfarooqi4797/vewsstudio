@@ -27,8 +27,10 @@ export function Hero() {
             </span>
             <span className="block flex items-center gap-4 flex-wrap">
               scroll
-              <span className="inline-block relative">
-                <EyeDoodle className="inline-block align-middle rotate-2p animate-float" size={120} />
+              <span className="inline-flex items-center justify-center align-middle relative">
+                <span className="inline-block bg-acid ink-border px-6 py-2 rotate-2n shadow-hard font-display italic text-[0.55em] animate-wobble">
+                  ✺ look
+                </span>
               </span>
               <span className="font-hand text-blush text-[0.45em] -ml-2">.</span>
             </span>
