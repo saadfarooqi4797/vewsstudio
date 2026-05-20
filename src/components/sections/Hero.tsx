@@ -1,4 +1,4 @@
-import { Arrow, Burst, Scribble, Star } from "@/components/Doodles";
+import { Arrow, Burst, EyeDoodle, Scribble, Star } from "@/components/Doodles";
 
 export function Hero() {
   return (
@@ -7,7 +7,7 @@ export function Hero() {
       <Star className="absolute top-28 left-[8%] text-ink animate-float" size={32} />
       <Burst className="absolute top-40 right-[12%] text-blush animate-float" size={70} />
       <Scribble className="absolute bottom-32 left-[15%] text-ink/60" size={140} />
-      <Star className="absolute top-[42%] right-[6%] text-blush rotate-2p hidden md:block animate-wobble" size={56} />
+      <EyeDoodle className="absolute top-[42%] right-[6%] text-ink rotate-2p hidden md:block" size={90} />
       <Star className="absolute bottom-20 right-[20%] text-ink animate-wobble" size={28} />
 
       <div className="max-w-[1400px] mx-auto relative">
@@ -27,10 +27,8 @@ export function Hero() {
             </span>
             <span className="block flex items-center gap-4 flex-wrap">
               scroll
-              <span className="inline-flex items-center justify-center align-middle relative">
-                <span className="inline-block bg-acid ink-border px-6 py-2 rotate-2n shadow-hard font-display italic text-[0.55em] animate-wobble">
-                  ✺ look
-                </span>
+              <span className="inline-block relative">
+                <EyeDoodle className="inline-block align-middle rotate-2p animate-float" size={120} />
               </span>
               <span className="font-hand text-blush text-[0.45em] -ml-2">.</span>
             </span>
