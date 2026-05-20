@@ -1,4 +1,3 @@
-import logo from "@/assets/vews-logo.png";
 import { Arrow, Burst, EyeDoodle, Scribble, Star } from "@/components/Doodles";
 
 export function Hero() {
@@ -29,12 +28,7 @@ export function Hero() {
             <span className="block flex items-center gap-4 flex-wrap">
               scroll
               <span className="inline-block relative">
-                <img
-                  src={logo}
-                  alt=""
-                  className="h-[0.85em] w-auto inline-block align-middle rotate-2p animate-float"
-                  style={{ ["--r" as string]: "3deg" }}
-                />
+                <EyeDoodle className="inline-block align-middle rotate-2p animate-float" size={120} />
               </span>
               <span className="font-hand text-blush text-[0.45em] -ml-2">.</span>
             </span>
