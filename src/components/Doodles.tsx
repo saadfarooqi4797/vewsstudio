@@ -1,11 +1,13 @@
+import eyeMark from "@/assets/eye-mark.png";
+
 export const EyeDoodle = ({ className = "", size = 60 }: { className?: string; size?: number }) => (
-  <svg className={className} width={size} height={size * 0.6} viewBox="0 0 100 60" fill="none">
-    <path d="M5 30 Q 50 -5 95 30 Q 50 65 5 30 Z" stroke="currentColor" strokeWidth="3.5" strokeLinejoin="round" fill="none" />
-    <g className="animate-blink" style={{ transformOrigin: "50px 30px" }}>
-      <circle cx="50" cy="30" r="12" fill="currentColor" />
-      <circle cx="54" cy="26" r="3" fill="var(--cream)" />
-    </g>
-  </svg>
+  <img
+    src={eyeMark}
+    alt=""
+    aria-hidden="true"
+    className={className}
+    style={{ width: size, height: size * 0.6, objectFit: "contain" }}
+  />
 );
 
 export const Arrow = ({ className = "", size = 80 }: { className?: string; size?: number }) => (
