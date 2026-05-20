@@ -1,5 +1,20 @@
 import eyeMark from "@/assets/eye-mark.png";
 
+const burstLines = [
+  [42, 30, 56, 30],
+  [40.392, 36, 52.517, 43],
+  [36, 40.392, 43, 52.517],
+  [30, 42, 30, 56],
+  [24, 40.392, 17, 52.517],
+  [19.608, 36, 7.483, 43],
+  [18, 30, 4, 30],
+  [19.608, 24, 7.483, 17],
+  [24, 19.608, 17, 7.483],
+  [30, 18, 30, 4],
+  [36, 19.608, 43, 7.483],
+  [40.392, 24, 52.517, 17],
+];
+
 export const EyeDoodle = ({ className = "", size = 60 }: { className?: string; size?: number }) => (
   <img
     src={eyeMark}
@@ -37,14 +52,9 @@ export const Scribble = ({ className = "", size = 100 }: { className?: string; s
 
 export const Burst = ({ className = "", size = 60 }: { className?: string; size?: number }) => (
   <svg className={className} width={size} height={size} viewBox="0 0 60 60" fill="none">
-    {Array.from({ length: 12 }).map((_, i) => {
-      const a = (i * 30 * Math.PI) / 180;
-      const x1 = 30 + Math.cos(a) * 12;
-      const y1 = 30 + Math.sin(a) * 12;
-      const x2 = 30 + Math.cos(a) * 26;
-      const y2 = 30 + Math.sin(a) * 26;
-      return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />;
-    })}
+    {burstLines.map(([x1, y1, x2, y2], i) => (
+      <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+    ))}
   </svg>
 );
 

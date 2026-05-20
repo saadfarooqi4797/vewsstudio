@@ -1,5 +1,4 @@
-import logo from "@/assets/vews-logo.png";
-import { Burst, Scribble, Star } from "@/components/Doodles";
+import { Burst, EyeDoodle, Scribble, Star } from "@/components/Doodles";
 
 export function About() {
   return (
@@ -7,7 +6,7 @@ export function About() {
       <div className="max-w-[1200px] mx-auto grid md:grid-cols-[1fr_1.4fr] gap-12 md:gap-20 items-center">
         <div className="relative">
           <div className="sketch-border bg-cream p-8 inline-block rotate-1n shadow-hard">
-            <img src={logo} alt="VEWS Studio mark" className="w-56 h-auto" />
+            <EyeDoodle className="w-56 h-auto" size={224} />
           </div>
           <span className="absolute -top-6 -right-2 font-hand text-2xl text-blush rotate-1p inline-block">
             our eye →
