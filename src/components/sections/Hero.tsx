@@ -1,4 +1,4 @@
-import { Arrow, Burst, EyeDoodle, Scribble, Star } from "@/components/Doodles";
+import { Arrow, Burst, Scribble, Star } from "@/components/Doodles";
 
 export function Hero() {
   return (
