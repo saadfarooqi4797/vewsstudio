@@ -1,18 +1,21 @@
-import { Burst, EyeDoodle, Scribble, Star } from "@/components/Doodles";
+import { Burst, Scribble, Star, Squiggle } from "@/components/Doodles";
 
 export function About() {
   return (
     <section id="about" className="relative px-4 md:px-8 py-24 md:py-36 border-t-[3px] border-ink">
       <div className="max-w-[1200px] mx-auto grid md:grid-cols-[1fr_1.4fr] gap-12 md:gap-20 items-center">
         <div className="relative">
-          <div className="sketch-border bg-cream p-8 inline-block rotate-1n shadow-hard">
-            <EyeDoodle className="w-56 h-auto" size={224} />
+          <div className="sketch-border bg-acid p-10 inline-block rotate-1n shadow-hard">
+            <div className="font-display font-black text-[5rem] md:text-[7rem] leading-none italic">
+              V<span className="text-blush">★</span>W<span className="block text-right -mt-4">S</span>
+            </div>
+            <Squiggle className="text-ink mt-2" width={180} />
           </div>
           <span className="absolute -top-6 -right-2 font-hand text-2xl text-blush rotate-1p inline-block">
-            our eye →
+            est. small, loud →
           </span>
-          <Burst className="absolute -bottom-6 -left-6 text-acid" size={70} />
-          <Scribble className="absolute top-1/2 -right-16 text-ink/60 hidden md:block" size={120} />
+          <Burst className="absolute -bottom-6 -left-6 text-blush" size={70} />
+          <Star className="absolute top-1/2 -right-10 text-ink hidden md:block animate-wobble" size={48} />
         </div>
 
         <div>
