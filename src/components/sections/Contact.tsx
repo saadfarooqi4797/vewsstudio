@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Burst, EyeDoodle, Star } from "@/components/Doodles";
+import { Burst, Star } from "@/components/Doodles";
 
 export function Contact() {
   const [sent, setSent] = useState(false);
@@ -23,7 +23,7 @@ export function Contact() {
           onSubmit={(e) => { e.preventDefault(); setSent(true); }}
           className="relative bg-cream ink-border-thick shadow-hard p-6 md:p-10 max-w-2xl mx-auto rotate-1n"
         >
-          <EyeDoodle className="absolute -top-8 -right-6 text-ink rotate-2p" size={70} />
+          
           <div className="grid sm:grid-cols-2 gap-5">
             <Field label="Your name" name="name" placeholder="Studio Anonymous" />
             <Field label="Email" name="email" type="email" placeholder="hi@you.com" />
