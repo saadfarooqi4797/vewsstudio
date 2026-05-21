@@ -5,12 +5,12 @@ export function About() {
     <section id="about" className="relative px-4 md:px-8 py-24 md:py-36 border-t-[3px] border-ink">
       <div className="max-w-[1200px] mx-auto grid md:grid-cols-[1fr_1.4fr] gap-12 md:gap-20 items-center">
         <div className="relative">
-          <div className="sketch-border bg-cream p-8 inline-block rotate-1n shadow-hard">
-            <EyeDoodle className="w-56 h-auto" size={224} />
+          <div className="sketch-border bg-cream p-8 rotate-1n shadow-hard">
+            <span className="font-hand text-3xl text-blush block mb-2">our pov</span>
+            <p className="font-display text-3xl md:text-4xl leading-tight">
+              We see what's <span className="italic highlight-acid">missing</span> — then we make it.
+            </p>
           </div>
-          <span className="absolute -top-6 -right-2 font-hand text-2xl text-blush rotate-1p inline-block">
-            our eye →
-          </span>
           <Burst className="absolute -bottom-6 -left-6 text-acid" size={70} />
           <Scribble className="absolute top-1/2 -right-16 text-ink/60 hidden md:block" size={120} />
         </div>
