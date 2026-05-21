@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Burst, EyeDoodle, Star } from "@/components/Doodles";
+import { Burst, Star } from "@/components/Doodles";
 
 export function Contact() {
   const [sent, setSent] = useState(false);
