@@ -89,7 +89,7 @@ export function Intro({ onDone }: { onDone: () => void }) {
         ref={videoRef}
         playsInline
         preload="auto"
-        className="absolute inset-0 w-full h-full object-cover"
+        className="absolute inset-0 w-full h-full object-contain"
         style={{ transition: "opacity 80ms" }}
       >
         <source src={logoVideo} type="video/mp4" />
