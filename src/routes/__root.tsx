@@ -72,23 +72,32 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   );
 }
 
+// Replaced at build time by vite.spa.config.ts; undefined in the SSR (Cloudflare) build
+declare const __SPA_MODE__: boolean | undefined;
+
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  head: () => ({
+  head: () => {
+    // Set VITE_SITE_URL in Cloudflare Pages environment variables (e.g. https://vewsstudio.com)
+    const siteUrl = (import.meta.env.VITE_SITE_URL as string | undefined)?.replace(/\/$/, "") ?? "https://vewsstudio.com";
+    const ogImage = `${siteUrl}/og-image.png`;
+    return {
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "VEWS Studio: Artful Chaos is a visually striking website for a creative agency specializing in video, design, AI content, and social media." },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "VEWS Studio: Artful Chaos is a visually striking website for a creative agency specializing in video, design, AI content, and social media." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
-      { name: "twitter:title", content: "Lovable App" },
-      { name: "twitter:description", content: "VEWS Studio: Artful Chaos is a visually striking website for a creative agency specializing in video, design, AI content, and social media." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/e41bf19f-6cb3-4309-927a-dc9958cb2774/id-preview-8b21cc13--78859b99-967f-48f3-a95a-9f460c371d67.lovable.app-1779218175423.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/e41bf19f-6cb3-4309-927a-dc9958cb2774/id-preview-8b21cc13--78859b99-967f-48f3-a95a-9f460c371d67.lovable.app-1779218175423.png" },
+      { title: "VEWS Studio — Visuals that stop the scroll" },
+      { name: "description", content: "A creative studio for bold stories and visual chaos." },
+      // Open Graph — Facebook, WhatsApp, LinkedIn, Discord
+      { property: "og:type",         content: "website" },
+      { property: "og:title",        content: "VEWS Studio — Creative content that gets remembered" },
+      { property: "og:description",  content: "A creative studio for bold stories and visual chaos." },
+      { property: "og:image",        content: ogImage },
+      { property: "og:image:width",  content: "1200" },
+      { property: "og:image:height", content: "630" },
+      // Twitter / X
+      { name: "twitter:card",        content: "summary_large_image" },
+      { name: "twitter:title",       content: "VEWS Studio — Creative content that gets remembered" },
+      { name: "twitter:description", content: "A creative studio for bold stories and visual chaos." },
+      { name: "twitter:image",       content: ogImage },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -102,8 +111,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
     ],
-  }),
-  shellComponent: RootShell,
+  };
+  },
+  shellComponent: (typeof __SPA_MODE__ !== "undefined" && __SPA_MODE__) ? undefined : RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
   errorComponent: ErrorComponent,
