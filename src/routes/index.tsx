@@ -192,7 +192,7 @@ function Index() {
               to="/contact"
               className="shrink-0 bg-acid text-ink px-8 py-4 font-bold text-lg ink-border shadow-hard hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none transition-all"
             >
-              Start a project →
+              Talk To Us →
             </Link>
           </div>
         </section>

@@ -63,7 +63,7 @@ export function Footer() {
                 to="/contact"
                 className="bg-acid text-ink px-8 py-4 font-bold text-base md:text-lg ink-border shadow-hard hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none transition-all"
               >
-                Start a project →
+                Talk To Us →
               </Link>
             </div>
           </div>

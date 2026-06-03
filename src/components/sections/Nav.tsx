@@ -194,7 +194,7 @@ export function Nav() {
                   onClick={() => setOpen(false)}
                   className="inline-flex items-center gap-2 bg-ink text-white px-6 py-3 font-bold text-sm uppercase tracking-widest ink-border shadow-hard hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none transition-all"
                 >
-                  Start a project
+                  Talk To Us
                 </Link>
                 <p className="mt-2 font-hand text-base text-ink/35">hello@vewsstudio.com</p>
               </div>

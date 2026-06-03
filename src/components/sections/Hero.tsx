@@ -95,7 +95,7 @@ export function Hero() {
                 href="#contact"
                 className="bg-ink text-cream px-6 py-3 font-bold ink-border shadow-hard hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none transition-all"
               >
-                Start a project
+                Talk To Us
               </a>
               <a
                 href="#work"
