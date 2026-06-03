@@ -1,8 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
 import { Hero } from "@/components/sections/Hero";
 import { Footer } from "@/components/sections/Footer";
-import { Intro } from "@/components/Intro";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -38,22 +36,8 @@ const SERVICE_TEASERS = [
 ];
 
 function Index() {
-  const [introDone, setIntroDone] = useState(false);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (sessionStorage.getItem("vews-intro-played") === "1") setIntroDone(true);
-  }, []);
-
-  const handleDone = () => {
-    try { sessionStorage.setItem("vews-intro-played", "1"); } catch {}
-    setIntroDone(true);
-  };
-
   return (
-    <>
-      {!introDone && <Intro onDone={handleDone} />}
-      <main className="min-h-screen bg-white text-ink">
+    <main className="min-h-screen bg-white text-ink">
 
         {/* ── 1. HERO ──────────────────────────────────────────────────────── */}
         <Hero />
@@ -215,6 +199,5 @@ function Index() {
 
         <Footer />
       </main>
-    </>
   );
 }

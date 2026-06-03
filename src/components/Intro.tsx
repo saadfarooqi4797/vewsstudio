@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import logoVideo from "@/assets/Vews_Logo_Video.mp4";
 
 const BG = "#D2D2D2";
 
@@ -92,7 +91,8 @@ export function Intro({ onDone }: { onDone: () => void }) {
         className="absolute inset-0 w-full h-full object-contain"
         style={{ transition: "opacity 80ms" }}
       >
-        <source src={logoVideo} type="video/mp4" />
+        <source src="/intro.webm" type="video/webm" />
+        <source src="/intro.mp4"  type="video/mp4" />
       </video>
 
       {/* Play button — shown until user taps, unlocks audio */}
