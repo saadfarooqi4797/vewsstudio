@@ -1,8 +1,11 @@
-import { Burst, Scribble, Star } from "@/components/Doodles";
+import { Asterisk, Burst, Dots, Scribble, Star } from "@/components/Doodles";
+import mascotPointing from "@/assets/mascot-pointing.png";
 
 export function About() {
   return (
     <section id="about" className="relative px-4 md:px-8 py-24 md:py-36 border-t-[3px] border-ink">
+      <Dots className="absolute top-10 right-10 text-acid hidden md:block" size={22} />
+      <Asterisk className="absolute bottom-12 right-[38%] text-blush animate-wobble hidden md:block" size={14} />
       <div className="max-w-[1200px] mx-auto grid md:grid-cols-[1fr_1.4fr] gap-12 md:gap-20 items-center">
         <div className="relative">
           <div className="sketch-border bg-cream p-8 rotate-1n shadow-hard">
@@ -15,8 +18,9 @@ export function About() {
           <Scribble className="absolute top-1/2 -right-16 text-ink/60 hidden md:block" size={120} />
         </div>
 
-        <div>
-          <span className="font-hand text-2xl text-blush flex items-center gap-2 mb-2">
+        <div className="relative">
+          <img src={mascotPointing} alt="" className="absolute right-[calc(100%-1rem)] top-5 h-40 hidden md:block mix-blend-multiply" />
+          <span className="font-hand text-2xl text-blush flex items-center gap-2 mb-2" style={{ transform: 'rotate(0.8deg)' }}>
             <Star size={22} /> about the studio
           </span>
           <h2 className="text-5xl md:text-7xl mb-8">

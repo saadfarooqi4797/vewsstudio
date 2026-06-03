@@ -4,9 +4,12 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
+import { Nav } from "@/components/sections/Nav";
+import { EasterEggProvider } from "@/components/EasterEggProvider";
 
 import appCss from "../styles.css?url";
 
@@ -120,10 +123,16 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Outlet />
+      <EasterEggProvider>
+        <Nav />
+        <div key={pathname} className="page-enter">
+          <Outlet />
+        </div>
+      </EasterEggProvider>
     </QueryClientProvider>
   );
 }

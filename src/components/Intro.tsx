@@ -1,94 +1,84 @@
 import { useEffect, useRef, useState } from "react";
+import logoVideo from "@/assets/Vews_Logo_Video.mp4";
 
-/**
- * Fullscreen cinematic intro that plays the VEWS logo video and seamlessly
- * zooms into the pupil before handing off to the homepage.
- */
+const BG = "#D2D2D2";
+
 export function Intro({ onDone }: { onDone: () => void }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const [phase, setPhase] = useState<"playing" | "zooming" | "gone">("playing");
-  const triggeredRef = useRef(false);
+  const [fading, setFading] = useState(false);
+  const [playing, setPlaying] = useState(false);
+  const doneRef = useRef(false);
+  const safetyRef = useRef<number>(0);
 
-  // Lock scroll while intro is up
+  // Lock scroll while intro is showing
   useEffect(() => {
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = prev;
-    };
+    return () => { document.body.style.overflow = prev; };
   }, []);
 
-  // Drive the pupil-zoom transition near the end of the clip
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
 
-    const tryPlay = () => {
-      v.play().catch(() => {
-        // Autoplay blocked — skip straight to site
-        finish();
-      });
-    };
-
-    const onTime = () => {
-      if (triggeredRef.current) return;
-      const d = v.duration || 3.7;
-      // Start zoom transition in the final ~0.9s — the camera is already pushing
-      // into the pupil, we just extend that motion into the page.
-      if (v.currentTime >= d - 0.9) {
-        triggeredRef.current = true;
-        setPhase("zooming");
-        // Fully hand off shortly after the zoom completes
-        window.setTimeout(finish, 1100);
-      }
-    };
-
     const finish = () => {
-      setPhase("gone");
-      window.setTimeout(onDone, 250);
+      if (doneRef.current) return;
+      doneRef.current = true;
+      if (videoRef.current) videoRef.current.style.opacity = "0";
+      setFading(true);
+      window.setTimeout(onDone, 350);
     };
 
-    v.addEventListener("timeupdate", onTime);
     v.addEventListener("ended", finish);
     v.addEventListener("error", finish);
 
-    if (v.readyState >= 2) tryPlay();
-    else v.addEventListener("loadeddata", tryPlay, { once: true });
-
-    // Safety net — never strand the user
-    const safety = window.setTimeout(finish, 7000);
-
     return () => {
-      v.removeEventListener("timeupdate", onTime);
       v.removeEventListener("ended", finish);
       v.removeEventListener("error", finish);
-      window.clearTimeout(safety);
+      window.clearTimeout(safetyRef.current);
     };
   }, [onDone]);
 
+  const handlePlay = () => {
+    const v = videoRef.current;
+    if (!v || doneRef.current) return;
+    setPlaying(true);
+    safetyRef.current = window.setTimeout(() => {
+      if (doneRef.current) return;
+      doneRef.current = true;
+      setFading(true);
+      window.setTimeout(onDone, 350);
+    }, 30000);
+    v.play().catch(() => {
+      if (doneRef.current) return;
+      doneRef.current = true;
+      setFading(true);
+      window.setTimeout(onDone, 350);
+    });
+  };
+
   const skip = () => {
-    if (triggeredRef.current) return;
-    triggeredRef.current = true;
-    setPhase("zooming");
-    window.setTimeout(() => {
-      setPhase("gone");
-      window.setTimeout(onDone, 200);
-    }, 600);
+    if (doneRef.current) return;
+    doneRef.current = true;
+    if (videoRef.current) videoRef.current.style.opacity = "0";
+    setFading(true);
+    window.setTimeout(onDone, 350);
   };
 
   return (
     <div
-      aria-hidden={phase === "gone"}
-      className="fixed inset-0 z-[200] bg-cream flex items-center justify-center overflow-hidden"
+      aria-hidden={fading}
+      className="fixed inset-0 z-[200] flex items-center justify-center overflow-hidden"
       style={{
-        opacity: phase === "gone" ? 0 : 1,
-        transition: "opacity 250ms ease-out",
-        pointerEvents: phase === "gone" ? "none" : "auto",
+        backgroundColor: BG,
+        opacity: fading ? 0 : 1,
+        transition: "opacity 350ms ease-out",
+        pointerEvents: fading ? "none" : "auto",
       }}
     >
-      {/* Grain matches the site */}
+      {/* Grain overlay */}
       <div
-        className="absolute inset-0 pointer-events-none opacity-40 mix-blend-multiply"
+        className="absolute inset-0 pointer-events-none opacity-30 mix-blend-multiply"
         style={{
           backgroundImage:
             "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.1  0 0 0 0 0.1  0 0 0 0 0.1  0 0 0 0.18 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")",
@@ -98,31 +88,34 @@ export function Intro({ onDone }: { onDone: () => void }) {
       <video
         ref={videoRef}
         playsInline
-        muted
-        autoPlay
         preload="auto"
-        className="max-w-[min(92vw,92vh)] max-h-[92vh] w-auto h-auto object-contain"
-        style={{
-          transform: phase === "zooming" ? "scale(14)" : "scale(1)",
-          transition: "transform 1100ms cubic-bezier(0.7, 0, 0.84, 0)",
-          willChange: "transform",
-        }}
+        className="absolute inset-0 w-full h-full object-cover"
+        style={{ transition: "opacity 80ms" }}
       >
-        <source src="/intro.webm" type="video/webm" />
+        <source src={logoVideo} type="video/mp4" />
       </video>
 
-      {/* Cream wash that intensifies as we punch through the pupil */}
-      <div
-        className="absolute inset-0 bg-cream pointer-events-none"
-        style={{
-          opacity: phase === "zooming" ? 1 : 0,
-          transition: "opacity 900ms ease-in 250ms",
-        }}
-      />
+      {/* Play button — shown until user taps, unlocks audio */}
+      {!playing && (
+        <button
+          onClick={handlePlay}
+          aria-label="Play intro"
+          className="absolute inset-0 flex items-center justify-center group"
+        >
+          <div className="w-20 h-20 rounded-full bg-white/90 flex items-center justify-center
+                         border-[3px] border-ink shadow-[4px_4px_0_0_#1a1208]
+                         group-hover:scale-110 group-hover:shadow-[6px_6px_0_0_#1a1208]
+                         transition-all duration-200">
+            <svg width="26" height="26" viewBox="0 0 26 26" fill="none" style={{ marginLeft: "3px" }}>
+              <polygon points="6,3 23,13 6,23" fill="#1a1208" />
+            </svg>
+          </div>
+        </button>
+      )}
 
       <button
         onClick={skip}
-        className="absolute bottom-6 right-6 text-xs uppercase tracking-[0.3em] text-ink/60 hover:text-ink font-medium"
+        className="absolute bottom-6 right-6 text-xs uppercase tracking-[0.3em] text-ink/50 hover:text-ink font-medium transition-colors"
       >
         skip ↦
       </button>

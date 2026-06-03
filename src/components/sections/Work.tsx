@@ -1,43 +1,106 @@
+import { useEffect, useRef } from "react";
 import w1 from "@/assets/work-1.jpg";
 import w2 from "@/assets/work-2.jpg";
 import w3 from "@/assets/work-3.jpg";
 import w4 from "@/assets/work-4.jpg";
 import w5 from "@/assets/work-5.jpg";
-import { Arrow, Star } from "@/components/Doodles";
+import workVideo from "@/assets/New-video-work-section.mp4";
 
 const works = [
-  { img: w1, title: "Eye Index", tag: "Identity / Print", cls: "md:col-span-5 md:row-span-2 rotate-1n", tape: "left-6 -top-3 -rotate-12" },
-  { img: w2, title: "Tear Sheet 01", tag: "Editorial / AI", cls: "md:col-span-4 rotate-1p", tape: "right-8 -top-3 rotate-6" },
-  { img: w5, title: "Hand Notes", tag: "Social Campaign", cls: "md:col-span-3 md:row-span-2 -mt-4 md:-mt-12 rotate-2p", tape: "left-1/2 -top-3 -translate-x-1/2" },
-  { img: w3, title: "Third Eye", tag: "Brand Film", cls: "md:col-span-4 rotate-1n", tape: "right-6 -top-3 -rotate-3" },
-  { img: w4, title: "Stage Frame", tag: "Music Video", cls: "md:col-span-5 rotate-1p -mt-6 md:-mt-10", tape: "left-10 -top-3 rotate-12" },
+  { img: w1, title: "Midnight Coffee",  tag: "Brand Identity",     cls: "md:col-span-5 md:row-span-2 rotate-1n", tape: "left-6 -top-3 -rotate-12" },
+  { img: w2, title: "AI Film 01",       tag: "AI Film Production",  cls: "md:col-span-4 rotate-1p",               tape: "right-8 -top-3 rotate-6" },
+  { img: w5, title: "Neon Dreams",      tag: "Poster Series",       cls: "md:col-span-3 md:row-span-2 -mt-4 md:-mt-12 rotate-2p", tape: "left-1/2 -top-3 -translate-x-1/2" },
+  { img: w3, title: "Nike Concept",     tag: "Creative Campaign",   cls: "md:col-span-4 rotate-1n",               tape: "right-6 -top-3 -rotate-3" },
+  { img: w4, title: "Stage Frame",      tag: "Motion Design",       cls: "md:col-span-5 rotate-1p -mt-6 md:-mt-10", tape: "left-10 -top-3 rotate-12" },
 ];
+
+function VideoScrubCard() {
+  const containerRef = useRef<HTMLElement>(null);
+  const videoRef    = useRef<HTMLVideoElement>(null);
+  const rafRef      = useRef<number>(0);
+  const targetRef   = useRef(0);
+  const smoothRef   = useRef(0);
+
+  useEffect(() => {
+    const video     = videoRef.current;
+    const container = containerRef.current;
+    if (!video || !container) return;
+
+    const computeProgress = () => {
+      const rect   = container.getBoundingClientRect();
+      const vh     = window.innerHeight;
+      const cardCenter        = rect.top + rect.height / 2;
+      const distancePastCenter = vh / 2 - cardCenter;
+      targetRef.current = Math.max(0, Math.min(1, distancePastCenter / vh));
+    };
+
+    const tick = () => {
+      const v = videoRef.current;
+      if (v && v.readyState >= 2 && v.duration) {
+        smoothRef.current += (targetRef.current - smoothRef.current) * 0.06;
+        const newTime = smoothRef.current * v.duration;
+        if (Math.abs(v.currentTime - newTime) > 0.008) v.currentTime = newTime;
+      }
+      rafRef.current = requestAnimationFrame(tick);
+    };
+
+    window.addEventListener("scroll", computeProgress, { passive: true });
+    window.addEventListener("resize", computeProgress, { passive: true });
+    rafRef.current = requestAnimationFrame(tick);
+    computeProgress();
+
+    return () => {
+      window.removeEventListener("scroll", computeProgress);
+      window.removeEventListener("resize", computeProgress);
+      cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
+
+  return (
+    <figure
+      ref={containerRef}
+      className="relative group md:col-span-7 md:col-start-6 rotate-1n cursor-pointer"
+    >
+      <div
+        className="relative bg-cream p-3 pb-12 ink-border-thick shadow-hard group-hover:-translate-y-3 group-hover:shadow-[8px_16px_0_0_var(--ink)]"
+        style={{ transition: 'transform 400ms cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 300ms ease-out' }}
+      >
+        <span className="tape left-10 -top-3 rotate-12" />
+        <video
+          ref={videoRef}
+          src={workVideo}
+          muted
+          playsInline
+          preload="auto"
+          className="w-full h-auto block object-cover"
+        />
+        <figcaption className="absolute bottom-2 left-3 right-3 flex items-center justify-between text-ink">
+          <span className="font-hand text-xl">Motion Reel</span>
+          <span className="text-[10px] uppercase tracking-widest opacity-50">Motion Design</span>
+        </figcaption>
+      </div>
+    </figure>
+  );
+}
 
 export function Work() {
   return (
-    <section id="work" className="relative px-4 md:px-8 py-24 md:py-36 bg-ink text-cream overflow-hidden">
+    <section
+      id="work"
+      className="px-6 md:px-10 py-16 md:py-24"
+      style={{ backgroundColor: "#F8F6F2" }}
+    >
       <div className="max-w-[1400px] mx-auto">
-        <div className="flex items-end justify-between mb-16 flex-wrap gap-6">
-          <div>
-            <span className="font-hand text-2xl text-acid flex items-center gap-2">
-              <Star size={24} className="text-acid" /> selected work
-            </span>
-            <h2 className="text-6xl md:text-8xl mt-2 text-cream">
-              An art wall<br /><span className="italic font-display text-acid">of recent</span> obsessions.
-            </h2>
-          </div>
-          <a href="#contact" className="font-hand text-2xl text-acid flex items-center gap-3 hover:gap-5 transition-all">
-            commission a piece <Arrow size={70} className="text-acid" />
-          </a>
-        </div>
-
         <div className="grid md:grid-cols-12 gap-6 md:gap-10">
           {works.map((w, i) => (
             <figure
               key={i}
               className={`relative group ${w.cls} cursor-pointer`}
             >
-              <div className="relative bg-cream p-3 pb-12 shadow-hard hover:-translate-y-1 hover:rotate-0 transition-transform duration-300">
+              <div
+                className="relative bg-cream p-3 pb-12 ink-border-thick shadow-hard group-hover:-translate-y-3 group-hover:shadow-[8px_16px_0_0_var(--ink)]"
+                style={{ transition: 'transform 400ms cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 300ms ease-out' }}
+              >
                 <span className={`tape ${w.tape}`} />
                 <img
                   src={w.img}
@@ -47,11 +110,12 @@ export function Work() {
                 />
                 <figcaption className="absolute bottom-2 left-3 right-3 flex items-center justify-between text-ink">
                   <span className="font-hand text-xl">{w.title}</span>
-                  <span className="text-[10px] uppercase tracking-widest opacity-70">{w.tag}</span>
+                  <span className="text-[10px] uppercase tracking-widest opacity-50">{w.tag}</span>
                 </figcaption>
               </div>
             </figure>
           ))}
+          <VideoScrubCard />
         </div>
       </div>
     </section>

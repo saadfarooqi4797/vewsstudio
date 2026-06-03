@@ -1,15 +1,20 @@
 import { useState } from "react";
-import { Burst, Star } from "@/components/Doodles";
+import { Asterisk, Burst, Scribble, Star } from "@/components/Doodles";
+import mascotSittingCrossed from "@/assets/mascot-sitting-crossed.png";
 
 export function Contact() {
   const [sent, setSent] = useState(false);
   return (
-    <section id="contact" className="relative px-4 md:px-8 py-24 md:py-36 overflow-hidden">
+    <section id="contact" className="relative px-4 md:px-8 py-24 md:py-36 overflow-hidden bg-[#111] text-cream">
+      <Scribble className="absolute bottom-12 left-[6%] text-blush/50 hidden md:block" size={80} />
+      <Asterisk className="absolute bottom-32 right-[8%] text-acid animate-float hidden md:block" size={16} />
       <div className="max-w-[1200px] mx-auto">
-        <div className="text-center mb-14 relative">
-          <Star className="absolute left-[15%] top-0 text-blush animate-wobble" size={32} />
-          <Burst className="absolute right-[15%] top-2 text-ink animate-float" size={60} />
-          <span className="font-hand text-2xl text-blush">(this is the part where you say hi)</span>
+        <div className="text-center mb-36 relative">
+          <span className="absolute left-[15%] top-0 animate-wobble inline-block">
+            <Star className="text-blush" size={32} />
+          </span>
+          <Burst className="absolute right-[15%] top-2 text-cream/30 animate-float" size={60} />
+          <span className="font-hand text-2xl text-blush" style={{ display: 'inline-block', transform: 'rotate(0.5deg)' }}>(this is the part where you say hi)</span>
           <h2 className="text-6xl md:text-9xl mt-3 leading-[0.85]">
             Got a brief?<br />
             <span className="italic font-display highlight-acid">Got a hunch?</span>
@@ -21,9 +26,9 @@ export function Contact() {
 
         <form
           onSubmit={(e) => { e.preventDefault(); setSent(true); }}
-          className="relative bg-cream ink-border-thick shadow-hard p-6 md:p-10 max-w-2xl mx-auto rotate-1n"
+          className="relative bg-cream text-ink ink-border-thick shadow-hard p-6 md:p-10 max-w-2xl mx-auto rotate-1n"
         >
-          
+          <img src={mascotSittingCrossed} alt="" className="absolute bottom-full left-0 right-0 mx-auto w-24 hidden md:block mix-blend-multiply" />
           <div className="grid sm:grid-cols-2 gap-5">
             <Field label="Your name" name="name" placeholder="Studio Anonymous" />
             <Field label="Email" name="email" type="email" placeholder="hi@you.com" />
@@ -50,7 +55,7 @@ export function Contact() {
           </div>
         </form>
 
-        <div className="mt-14 flex flex-col md:flex-row items-center justify-center gap-3 md:gap-6 font-hand text-xl text-ink/80">
+        <div className="mt-14 flex flex-col md:flex-row items-center justify-center gap-3 md:gap-6 font-hand text-xl text-cream/80">
           <a href="mailto:hello@vews.studio" className="hover:text-blush">hello@vews.studio</a>
           <span className="hidden md:inline">✺</span>
           <a href="#" className="hover:text-blush">@vews.studio</a>
