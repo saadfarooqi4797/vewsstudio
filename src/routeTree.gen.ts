@@ -10,7 +10,11 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WorkRouteImport } from './routes/work'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as RefundPolicyRouteImport } from './routes/refund-policy'
+import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
+import { Route as PayRouteImport } from './routes/pay'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AllEyesRouteImport } from './routes/all-eyes'
 import { Route as AboutRouteImport } from './routes/about'
@@ -21,9 +25,29 @@ const WorkRoute = WorkRouteImport.update({
   path: '/work',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RefundPolicyRoute = RefundPolicyRouteImport.update({
+  id: '/refund-policy',
+  path: '/refund-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
+  id: '/privacy-policy',
+  path: '/privacy-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PayRoute = PayRouteImport.update({
+  id: '/pay',
+  path: '/pay',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -52,7 +76,11 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/all-eyes': typeof AllEyesRoute
   '/contact': typeof ContactRoute
+  '/pay': typeof PayRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
+  '/refund-policy': typeof RefundPolicyRoute
   '/services': typeof ServicesRoute
+  '/terms': typeof TermsRoute
   '/work': typeof WorkRoute
 }
 export interface FileRoutesByTo {
@@ -60,7 +88,11 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/all-eyes': typeof AllEyesRoute
   '/contact': typeof ContactRoute
+  '/pay': typeof PayRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
+  '/refund-policy': typeof RefundPolicyRoute
   '/services': typeof ServicesRoute
+  '/terms': typeof TermsRoute
   '/work': typeof WorkRoute
 }
 export interface FileRoutesById {
@@ -69,21 +101,49 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/all-eyes': typeof AllEyesRoute
   '/contact': typeof ContactRoute
+  '/pay': typeof PayRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
+  '/refund-policy': typeof RefundPolicyRoute
   '/services': typeof ServicesRoute
+  '/terms': typeof TermsRoute
   '/work': typeof WorkRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/all-eyes' | '/contact' | '/services' | '/work'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/all-eyes'
+    | '/contact'
+    | '/pay'
+    | '/privacy-policy'
+    | '/refund-policy'
+    | '/services'
+    | '/terms'
+    | '/work'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/all-eyes' | '/contact' | '/services' | '/work'
+  to:
+    | '/'
+    | '/about'
+    | '/all-eyes'
+    | '/contact'
+    | '/pay'
+    | '/privacy-policy'
+    | '/refund-policy'
+    | '/services'
+    | '/terms'
+    | '/work'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/all-eyes'
     | '/contact'
+    | '/pay'
+    | '/privacy-policy'
+    | '/refund-policy'
     | '/services'
+    | '/terms'
     | '/work'
   fileRoutesById: FileRoutesById
 }
@@ -92,7 +152,11 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AllEyesRoute: typeof AllEyesRoute
   ContactRoute: typeof ContactRoute
+  PayRoute: typeof PayRoute
+  PrivacyPolicyRoute: typeof PrivacyPolicyRoute
+  RefundPolicyRoute: typeof RefundPolicyRoute
   ServicesRoute: typeof ServicesRoute
+  TermsRoute: typeof TermsRoute
   WorkRoute: typeof WorkRoute
 }
 
@@ -105,11 +169,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WorkRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/services': {
       id: '/services'
       path: '/services'
       fullPath: '/services'
       preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/refund-policy': {
+      id: '/refund-policy'
+      path: '/refund-policy'
+      fullPath: '/refund-policy'
+      preLoaderRoute: typeof RefundPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy-policy': {
+      id: '/privacy-policy'
+      path: '/privacy-policy'
+      fullPath: '/privacy-policy'
+      preLoaderRoute: typeof PrivacyPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pay': {
+      id: '/pay'
+      path: '/pay'
+      fullPath: '/pay'
+      preLoaderRoute: typeof PayRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -148,19 +240,13 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AllEyesRoute: AllEyesRoute,
   ContactRoute: ContactRoute,
+  PayRoute: PayRoute,
+  PrivacyPolicyRoute: PrivacyPolicyRoute,
+  RefundPolicyRoute: RefundPolicyRoute,
   ServicesRoute: ServicesRoute,
+  TermsRoute: TermsRoute,
   WorkRoute: WorkRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

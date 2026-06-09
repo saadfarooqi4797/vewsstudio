@@ -196,7 +196,7 @@ export function Nav() {
                 >
                   Talk To Us
                 </Link>
-                <p className="mt-2 font-hand text-base text-ink/35">hello@vewsstudio.com</p>
+                <p className="mt-2 font-hand text-base text-ink/35">creative@vewsstudio.com</p>
               </div>
             </div>
           </div>

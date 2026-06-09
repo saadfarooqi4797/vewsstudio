@@ -277,13 +277,13 @@
     font-family: var(--font-hand);
     font-size: 0.68rem;
     color: var(--ink);
-    opacity: 0.12;
+    opacity: 0.18;
     pointer-events: none;
     user-select: none;
     transform: rotate(-1.5deg);
     transition: opacity 0.5s ease;
   }
-  .egg-trigger:hover .egg-hint { opacity: 0.4; }
+  .egg-trigger:hover .egg-hint { opacity: 0.6; }
 
   .egg-trigger {
     background: none;

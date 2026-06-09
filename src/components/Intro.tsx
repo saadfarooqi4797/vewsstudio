@@ -6,7 +6,6 @@ const BG = "#D2D2D2";
 export function Intro({ onDone }: { onDone: () => void }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [fading, setFading] = useState(false);
-  const [playing, setPlaying] = useState(false);
   const doneRef = useRef(false);
   const safetyRef = useRef<number>(0);
 
@@ -29,6 +28,9 @@ export function Intro({ onDone }: { onDone: () => void }) {
       window.setTimeout(onDone, 350);
     };
 
+    // Safety timeout in case the video stalls
+    safetyRef.current = window.setTimeout(finish, 30000);
+
     v.addEventListener("ended", finish);
     v.addEventListener("error", finish);
 
@@ -38,24 +40,6 @@ export function Intro({ onDone }: { onDone: () => void }) {
       window.clearTimeout(safetyRef.current);
     };
   }, [onDone]);
-
-  const handlePlay = () => {
-    const v = videoRef.current;
-    if (!v || doneRef.current) return;
-    setPlaying(true);
-    safetyRef.current = window.setTimeout(() => {
-      if (doneRef.current) return;
-      doneRef.current = true;
-      setFading(true);
-      window.setTimeout(onDone, 350);
-    }, 30000);
-    v.play().catch(() => {
-      if (doneRef.current) return;
-      doneRef.current = true;
-      setFading(true);
-      window.setTimeout(onDone, 350);
-    });
-  };
 
   const skip = () => {
     if (doneRef.current) return;
@@ -87,6 +71,8 @@ export function Intro({ onDone }: { onDone: () => void }) {
 
       <video
         ref={videoRef}
+        autoPlay
+        muted
         playsInline
         preload="auto"
         className="absolute inset-0 w-full h-full object-contain"
@@ -94,24 +80,6 @@ export function Intro({ onDone }: { onDone: () => void }) {
       >
         <source src={logoVideo} type="video/mp4" />
       </video>
-
-      {/* Play button — shown until user taps, unlocks audio */}
-      {!playing && (
-        <button
-          onClick={handlePlay}
-          aria-label="Play intro"
-          className="absolute inset-0 flex items-center justify-center group"
-        >
-          <div className="w-20 h-20 rounded-full bg-white/90 flex items-center justify-center
-                         border-[3px] border-ink shadow-[4px_4px_0_0_#1a1208]
-                         group-hover:scale-110 group-hover:shadow-[6px_6px_0_0_#1a1208]
-                         transition-all duration-200">
-            <svg width="26" height="26" viewBox="0 0 26 26" fill="none" style={{ marginLeft: "3px" }}>
-              <polygon points="6,3 23,13 6,23" fill="#1a1208" />
-            </svg>
-          </div>
-        </button>
-      )}
 
       <button
         onClick={skip}

@@ -131,10 +131,10 @@ export function Footer() {
             <p className="text-[10px] uppercase tracking-[0.2em] text-ink/30 mb-5">Find us</p>
             <div className="flex flex-col gap-3">
               <a
-                href="mailto:hello@vews.studio"
+                href="mailto:creative@vewsstudio.com"
                 className="font-hand text-lg hover:text-blush transition-colors"
               >
-                hello@vews.studio
+                creative@vewsstudio.com
               </a>
               <a
                 href="#"
@@ -143,7 +143,7 @@ export function Footer() {
                 @vews.studio
               </a>
               <p className="font-hand text-lg text-ink/40 mt-1">
-                Lisbon / Internet
+                Islamabad, Pakistan
               </p>
             </div>
           </div>
@@ -158,14 +158,22 @@ export function Footer() {
         <div className="max-w-[1400px] mx-auto flex items-center justify-between flex-wrap gap-3">
           <Link
             to="/all-eyes"
-            className="font-hand text-base text-ink/35 italic tracking-wide hover:text-ink/60 transition-colors"
+            className="group font-hand text-base text-ink/40 italic tracking-wide hover:text-ink transition-colors flex flex-col"
             title="look closer."
           >
             All eyes reserved.
+            <span className="text-[0.65rem] not-italic font-sans tracking-[0.2em] uppercase text-ink/0 group-hover:text-blush transition-colors duration-300">
+              ↳ look closer
+            </span>
           </Link>
-          <p className="text-[10px] uppercase tracking-[0.25em] text-ink/25">
-            © {YEAR} VEWS Studio — Earth / Internet
-          </p>
+          <div className="flex items-center gap-5 flex-wrap">
+            <Link to="/terms" className="text-[10px] uppercase tracking-[0.2em] text-ink/25 hover:text-ink/50 transition-colors">Terms</Link>
+            <Link to="/privacy-policy" className="text-[10px] uppercase tracking-[0.2em] text-ink/25 hover:text-ink/50 transition-colors">Privacy</Link>
+            <Link to="/refund-policy" className="text-[10px] uppercase tracking-[0.2em] text-ink/25 hover:text-ink/50 transition-colors">Refunds</Link>
+            <p className="text-[10px] uppercase tracking-[0.25em] text-ink/25">
+              © {YEAR} VEWS Studio
+            </p>
+          </div>
         </div>
       </div>
 

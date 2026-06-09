@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import mascot from "@/assets/brand-details/mascot.png";
 import starRed from "@/assets/doodles/star-red.png";
 import { useEasterEgg } from "@/components/EasterEggProvider";
@@ -130,9 +131,13 @@ export function Hero() {
               style={{ transform: "rotate(90deg)" }}
             />
           </div>
-          <span className="egg-hint" style={{ transform: "rotate(0.8deg)" }}>
-            some things are worth staring at longer.
-          </span>
+          <Link
+            to="/all-eyes"
+            className="egg-hint hover:opacity-60 transition-opacity"
+            style={{ transform: "rotate(0.8deg)", pointerEvents: "auto" }}
+          >
+            some things are worth staring at longer. ↗
+          </Link>
         </div>
 
       </div>

@@ -124,10 +124,10 @@ function ContactPage() {
           <div>
             <p className="text-xs uppercase tracking-widest text-cream/30 mb-3">Email us directly</p>
             <a
-              href="mailto:hello@vews.studio"
+              href="mailto:creative@vewsstudio.com"
               className="font-hand text-2xl text-acid hover:underline block"
             >
-              hello@vews.studio
+              creative@vewsstudio.com
             </a>
             <p className="text-sm text-cream/40 mt-2">General enquiries + new projects</p>
           </div>
@@ -143,7 +143,7 @@ function ContactPage() {
           </div>
           <div>
             <p className="text-xs uppercase tracking-widest text-cream/30 mb-3">Where we are</p>
-            <p className="font-hand text-2xl text-cream/80">Lisbon, Portugal</p>
+            <p className="font-hand text-2xl text-cream/80">Islamabad, Pakistan</p>
             <p className="text-sm text-cream/40 mt-2">
               Working globally — timezone flexible for async clients.
             </p>

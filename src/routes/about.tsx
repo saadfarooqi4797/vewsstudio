@@ -102,7 +102,7 @@ function AboutPage() {
             {/* Not case studies — just grounding context */}
             <div className="border-t border-ink/10 pt-6">
               <p className="text-xs uppercase tracking-widest text-ink/30 mb-1">Based in</p>
-              <p className="text-lg font-medium">Lisbon / Internet</p>
+              <p className="text-lg font-medium">Islamabad, Pakistan</p>
             </div>
             <div className="border-t border-ink/10 pt-6">
               <p className="text-xs uppercase tracking-widest text-ink/30 mb-1">Working since</p>
@@ -115,6 +115,17 @@ function AboutPage() {
             <div className="border-t border-ink/10 pt-6">
               <p className="text-xs uppercase tracking-widest text-ink/30 mb-1">Team size</p>
               <p className="text-lg font-medium">Small by design</p>
+            </div>
+            <div className="border-t border-ink/10 pt-6">
+              <Link
+                to="/all-eyes"
+                className="group flex flex-col gap-1"
+              >
+                <p className="text-xs uppercase tracking-widest text-ink/30 mb-1 group-hover:text-blush transition-colors">Behind the scenes</p>
+                <p className="font-hand text-lg text-ink/40 group-hover:text-ink transition-colors">
+                  not everything made the cut. ↗
+                </p>
+              </Link>
             </div>
           </div>
         </div>
