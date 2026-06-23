@@ -5,13 +5,13 @@ import { PageLayout } from "@/components/PageLayout";
 import { About } from "@/components/sections/About";
 import { Process } from "@/components/sections/Process";
 
-import hammadImg from "@/assets/animated team/hammad_ceo_animated.jpeg";
-import amnaImg from "@/assets/animated team/amna_teamlead_animated.png";
-import raahimImg from "@/assets/animated team/raahim_graphic_designer_animated.png";
-import ayeshaImg from "@/assets/animated team/ayesha_client_success_animated.png";
-import khadijaImg from "@/assets/animated team/khadija_social_media_animated.png";
-import shumailImg from "@/assets/animated team/shumail_video_editor_animated.png";
-import ahmedImg from "@/assets/animated team/ahmed_video_editor_animated.png";
+import hammadImg from "@/assets/Animated Team/hammad_ceo_animated.jpeg";
+import amnaImg from "@/assets/Animated Team/amna_teamlead_animated.png";
+import raahimImg from "@/assets/Animated Team/raahim_graphic_designer_animated.png";
+import ayeshaImg from "@/assets/Animated Team/ayesha_client_success_animated.png";
+import khadijaImg from "@/assets/Animated Team/khadija_social_media_animated.png";
+import shumailImg from "@/assets/Animated Team/shumail_video_editor_animated.png";
+import ahmedImg from "@/assets/Animated Team/ahmed_video_editor_animated.png";
 
 import hammadReal from "@/assets/normal team/hammad_ceo.png";
 import amnaReal from "@/assets/normal team/amna_team_lead.png";
