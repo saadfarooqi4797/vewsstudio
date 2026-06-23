@@ -213,6 +213,16 @@ function AboutPage() {
 
   const triggerChaos = () => {
     if (chaosActive || saadFlipped) return;
+
+    // On phones, the card that was just swiped holds focus. When its layout
+    // flips to position:absolute a moment later, mobile browsers try to keep
+    // the focused element in view and scroll the whole page to wherever it
+    // ends up — usually the top. Blurring it, plus locking body scroll for
+    // the whole sequence, stops that from happening.
+    (document.activeElement as HTMLElement | null)?.blur();
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
     setChaosShaking(true);
 
     window.setTimeout(() => {
@@ -233,6 +243,7 @@ function AboutPage() {
         setSaadFlipped(false);
         setHasSeenPreview(true);
       }
+      document.body.style.overflow = prevOverflow;
     }, 5200);
   };
 
