@@ -1,30 +1,35 @@
-import { useState, useRef } from "react";
-import emailjs from "@emailjs/browser";
+import { useEffect, useState } from "react";
 import { Asterisk, Burst, Scribble, Star } from "@/components/Doodles";
 import mascotSittingCrossed from "@/assets/mascot-sitting-crossed.png";
 
-type Status = "idle" | "sending" | "sent" | "error";
-
-const SERVICE_ID  = import.meta.env["VITE_EMAILJS_SERVICE_ID"]  as string;
-const TEMPLATE_ID = import.meta.env["VITE_EMAILJS_TEMPLATE_ID"] as string;
-const PUBLIC_KEY  = import.meta.env["VITE_EMAILJS_PUBLIC_KEY"]  as string;
+const BOOKING_WIDGET_ID = "MSdgzDD5pnOapDJZi4oc";
+const BOOKING_SCRIPT_SRC = "https://link.msgsndr.com/js/form_embed.js";
 
 export function Contact() {
-  const [status, setStatus] = useState<Status>("idle");
-  const formRef = useRef<HTMLFormElement>(null);
+  const [height, setHeight] = useState(900);
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setStatus("sending");
+  // Load GHL's embed script once (it's meant to handle the widget's auto-resize via postMessage)
+  useEffect(() => {
+    if (document.querySelector(`script[src="${BOOKING_SCRIPT_SRC}"]`)) return;
+    const script = document.createElement("script");
+    script.src = BOOKING_SCRIPT_SRC;
+    script.async = true;
+    document.body.appendChild(script);
+  }, []);
 
-    try {
-      await emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, e.currentTarget, { publicKey: PUBLIC_KEY });
-      setStatus("sent");
-      formRef.current?.reset();
-    } catch {
-      setStatus("error");
+  // Belt-and-suspenders: also resize ourselves in case the embed script's
+  // own resize logic doesn't fire for this widget/iframe id format.
+  useEffect(() => {
+    function handleMessage(event: MessageEvent) {
+      if (typeof event.data !== "object" || event.data === null) return;
+      const data = event.data as Record<string, unknown>;
+      const raw = data["height"];
+      const parsed = typeof raw === "number" ? raw : typeof raw === "string" ? parseInt(raw, 10) : NaN;
+      if (!Number.isNaN(parsed) && parsed > 0) setHeight(parsed);
     }
-  }
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
+  }, []);
 
   return (
     <section id="contact" className="relative px-4 md:px-8 py-24 md:py-36 overflow-hidden bg-[#111] text-cream">
@@ -42,44 +47,21 @@ export function Contact() {
             <span className="italic font-display highlight-acid">Got a hunch?</span>
           </h2>
           <p className="mt-6 text-lg max-w-xl mx-auto">
-            Tell us what you're making. Even half-formed ideas welcome — we'll bring the doodles.
+            Tell us what you're making. Pick a time below and let's talk it through.
           </p>
         </div>
 
-        <form
-          ref={formRef}
-          onSubmit={handleSubmit}
-          className="relative bg-cream text-ink ink-border-thick shadow-hard p-6 md:p-10 max-w-2xl mx-auto rotate-1n"
-        >
+        {/* ── Booking widget — collects contact info and the time slot in one step ── */}
+        <div className="relative bg-cream text-ink ink-border-thick shadow-hard p-6 md:p-10 max-w-2xl mx-auto rotate-1n">
           <img src={mascotSittingCrossed} alt="" className="absolute bottom-full left-0 right-0 mx-auto w-24 hidden md:block mix-blend-multiply" />
-          <div className="grid sm:grid-cols-2 gap-5">
-            <Field label="Your name" name="name" placeholder="Studio Anonymous" />
-            <Field label="Email" name="email" type="email" placeholder="hi@you.com" />
-          </div>
-          <Field label="Brand / project" name="project" placeholder="Working title" className="mt-5" />
-          <div className="mt-5">
-            <label className="font-hand text-xl mb-1 block">Tell us the vibe</label>
-            <textarea
-              name="message"
-              required
-              rows={5}
-              placeholder="What are we making, for whom, and by when?"
-              className="w-full bg-transparent ink-border p-3 text-base focus:outline-none focus:bg-acid/20 resize-none font-sans"
-            />
-          </div>
-          <div className="mt-6 flex items-center justify-between flex-wrap gap-4">
-            <span className="font-hand text-lg text-ink/70">
-              {status === "error" ? "Something went wrong — try emailing us directly." : "we reply within 48h ✷"}
-            </span>
-            <button
-              type="submit"
-              disabled={status === "sending" || status === "sent"}
-              className="bg-ink text-cream px-7 py-3 font-bold ink-border shadow-hard-sm hover:bg-acid hover:text-ink transition-colors disabled:opacity-60"
-            >
-              {status === "sending" ? "Sending…" : status === "sent" ? "Sent — talk soon ✌" : "Send it →"}
-            </button>
-          </div>
-        </form>
+          <iframe
+            src={`https://api.leadconnectorhq.com/widget/booking/${BOOKING_WIDGET_ID}`}
+            style={{ width: "100%", border: "none", height: `${height}px` }}
+            scrolling="auto"
+            id={`${BOOKING_WIDGET_ID}_inline`}
+            title="Book a call"
+          />
+        </div>
 
         <div className="mt-14 flex flex-col md:flex-row items-center justify-center gap-3 md:gap-6 font-hand text-xl text-cream/80">
           <a href="mailto:creative@vewsstudio.com" className="hover:text-blush">creative@vewsstudio.com</a>
@@ -90,23 +72,5 @@ export function Contact() {
         </div>
       </div>
     </section>
-  );
-}
-
-function Field({
-  label, name, type = "text", placeholder, className = "",
-}: { label: string; name: string; type?: string; placeholder?: string; className?: string }) {
-  return (
-    <div className={className}>
-      <label htmlFor={name} className="font-hand text-xl mb-1 block">{label}</label>
-      <input
-        id={name}
-        name={name}
-        type={type}
-        required
-        placeholder={placeholder}
-        className="w-full bg-transparent ink-border p-3 text-base focus:outline-none focus:bg-acid/20"
-      />
-    </div>
   );
 }

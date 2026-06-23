@@ -29,6 +29,16 @@ export const Arrow = ({ className = "", size = 80 }: { className?: string; size?
   </svg>
 );
 
+export const Key = ({ className = "", size = 50 }: { className?: string; size?: number }) => (
+  <svg className={className} width={size} height={size * 0.5} viewBox="0 0 80 40" fill="none">
+    <circle cx="16" cy="20" r="13" stroke="currentColor" strokeWidth="2.5" />
+    <circle cx="16" cy="20" r="4" stroke="currentColor" strokeWidth="2.5" />
+    <path d="M28 20 L72 20" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+    <path d="M58 20 L58 30" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+    <path d="M68 20 L68 28" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+  </svg>
+);
+
 export const Crown = ({ className = "", size = 50 }: { className?: string; size?: number }) => (
   <svg className={`doodle-hover-tilt ${className}`} width={size} height={size * 0.74} viewBox="0 0 60 44" fill="none">
     <path

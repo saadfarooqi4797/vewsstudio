@@ -35,7 +35,7 @@ import ryu            from "@/assets/Behind the scenes/Mascot Designs/RYU.png";
 import whyEvenStupid  from "@/assets/Behind the scenes/Mascot Designs/why_even_so_stupid.png";
 
 // ── SVG doodles ───────────────────────────────────────────────────────────────
-import { Crown, Star, Asterisk, Burst, Scribble, EyeDoodle, Squiggle, Dots } from "@/components/Doodles";
+import { Crown, Star, Asterisk, Burst, Scribble, EyeDoodle, Squiggle, Dots, Key } from "@/components/Doodles";
 import { useEasterEgg } from "@/components/EasterEggProvider";
 
 export const Route = createFileRoute("/all-eyes")({
@@ -113,7 +113,7 @@ function SectionLabel({ n, text, color = "text-blush" }: { n: string; text: stri
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 function AllEyesPage() {
-  const { trigger } = useEasterEgg();
+  const { trigger, countedFound, total } = useEasterEgg();
 
   // Secret inside the secret — SO_BAD gets more unhinged with each click
   const [soBadClicks, setSoBadClicks] = useState(0);
@@ -432,8 +432,19 @@ function AllEyesPage() {
             <p className="font-hand text-sm text-cream/20 mt-2">(probably)</p>
           </div>
           <div className="text-right">
-            <Asterisk size={14} className="text-cream/10 mb-4 ml-auto" />
+            <button
+              type="button"
+              onClick={() => trigger("key")}
+              className="egg-trigger ml-auto block"
+              aria-label="something small, easy to miss"
+            >
+              <Key size={36} className="text-cream/20 mb-4 ml-auto" />
+              <span className="egg-hint" style={{ marginLeft: "auto", textAlign: "right" }}>doesn't open any door here.</span>
+            </button>
             <p className="font-hand text-base text-cream/30 italic">You're one of them now.</p>
+            <p className="font-hand text-sm text-acid/70 mt-3">
+              {countedFound} / {total} secrets found this visit
+            </p>
           </div>
         </div>
       </section>

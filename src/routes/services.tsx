@@ -147,6 +147,31 @@ function ServicesPage() {
         </div>
       </section>
 
+      {/* ── Packages Teaser ──────────────────────────────────────────────── */}
+      {/* Goal: bridge visitors who want fixed pricing to the dedicated packages page */}
+      <section className="px-6 md:px-10 py-16 md:py-24 border-t-[3px] border-ink bg-ink text-cream">
+        <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+          <div>
+            <p className="font-hand text-xl text-blush mb-2" style={{ transform: "rotate(-0.4deg)" }}>
+              want a fixed price?
+            </p>
+            <h2 className="font-display font-black text-4xl md:text-6xl leading-[0.9] mb-3">
+              Two ready-made<br />
+              <span className="italic">packages.</span>
+            </h2>
+            <p className="text-cream/60 text-base max-w-md">
+              Content Engine and Growth Machine — set monthly pricing, no scoping call required.
+            </p>
+          </div>
+          <Link
+            to="/packages"
+            className="bg-acid text-ink px-7 py-4 font-bold ink-border shadow-hard hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none transition-all shrink-0"
+          >
+            See packages →
+          </Link>
+        </div>
+      </section>
+
       {/* ── CTA ──────────────────────────────────────────────────────────── */}
       <section className="px-6 md:px-10 py-16 md:py-20 border-t-[3px] border-ink bg-white">
         <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row items-start md:items-end justify-between gap-8">

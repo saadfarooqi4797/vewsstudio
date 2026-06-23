@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import w1 from "@/assets/work-1.jpg";
 import w2 from "@/assets/work-2.jpg";
 import w3 from "@/assets/work-3.jpg";
@@ -6,12 +6,18 @@ import w4 from "@/assets/work-4.jpg";
 import w5 from "@/assets/work-5.jpg";
 import workVideo from "@/assets/New-video-work-section.mp4";
 
-const works = [
-  { img: w1, title: "Midnight Coffee",  tag: "Brand Identity",     cls: "md:col-span-5 md:row-span-2 rotate-1n", tape: "left-6 -top-3 -rotate-12" },
-  { img: w2, title: "AI Film 01",       tag: "AI Film Production",  cls: "md:col-span-4 rotate-1p",               tape: "right-8 -top-3 rotate-6" },
-  { img: w5, title: "Neon Dreams",      tag: "Poster Series",       cls: "md:col-span-3 md:row-span-2 -mt-4 md:-mt-12 rotate-2p", tape: "left-1/2 -top-3 -translate-x-1/2" },
-  { img: w3, title: "Nike Concept",     tag: "Creative Campaign",   cls: "md:col-span-4 rotate-1n",               tape: "right-6 -top-3 -rotate-3" },
-  { img: w4, title: "Stage Frame",      tag: "Motion Design",       cls: "md:col-span-5 rotate-1p -mt-6 md:-mt-10", tape: "left-10 -top-3 rotate-12" },
+const CATEGORIES = ["All", "Branding", "Social Content", "AI Films", "Posters", "Motion"] as const;
+type Category = (typeof CATEGORIES)[number];
+
+const works: Array<{
+  img: string; title: string; tag: string; category: Category;
+  cls: string; tape: string;
+}> = [
+  { img: w1, title: "Midnight Coffee",  tag: "Brand Identity",     category: "Branding",       cls: "md:col-span-5 md:row-span-2 rotate-1n", tape: "left-6 -top-3 -rotate-12" },
+  { img: w2, title: "AI Film 01",       tag: "AI Film Production", category: "AI Films",        cls: "md:col-span-4 rotate-1p",               tape: "right-8 -top-3 rotate-6" },
+  { img: w5, title: "Neon Dreams",      tag: "Poster Series",      category: "Posters",         cls: "md:col-span-3 md:row-span-2 -mt-4 md:-mt-12 rotate-2p", tape: "left-1/2 -top-3 -translate-x-1/2" },
+  { img: w3, title: "Nike Concept",     tag: "Creative Campaign",  category: "Social Content",  cls: "md:col-span-4 rotate-1n",               tape: "right-6 -top-3 -rotate-3" },
+  { img: w4, title: "Stage Frame",      tag: "Motion Design",      category: "Motion",          cls: "md:col-span-5 rotate-1p -mt-6 md:-mt-10", tape: "left-10 -top-3 rotate-12" },
 ];
 
 function VideoScrubCard() {
@@ -84,6 +90,11 @@ function VideoScrubCard() {
 }
 
 export function Work() {
+  const [active, setActive] = useState<Category>("All");
+
+  const filtered = active === "All" ? works : works.filter((w) => w.category === active);
+  const showVideoCard = active === "All" || active === "Motion";
+
   return (
     <section
       id="work"
@@ -91,8 +102,32 @@ export function Work() {
       style={{ backgroundColor: "#F8F6F2" }}
     >
       <div className="max-w-[1400px] mx-auto">
+
+        {/* ── Filter pills ─────────────────────────────────────────────── */}
+        <div className="flex gap-2 flex-wrap mb-10">
+          {CATEGORIES.map((cat) => (
+            <button
+              key={cat}
+              type="button"
+              onClick={() => setActive(cat)}
+              className={`text-xs uppercase tracking-widest px-4 py-2.5 border border-ink/20 font-medium transition-colors ${
+                active === cat
+                  ? "bg-ink text-cream border-ink"
+                  : "text-ink/40 hover:text-ink/70 hover:border-ink/40"
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+
+        {filtered.length === 0 && !showVideoCard ? (
+          <p className="font-hand text-2xl text-ink/40 text-center py-20">
+            Nothing here yet — check back soon.
+          </p>
+        ) : (
         <div className="grid md:grid-cols-12 gap-6 md:gap-10">
-          {works.map((w, i) => (
+          {filtered.map((w, i) => (
             <figure
               key={i}
               className={`relative group ${w.cls} cursor-pointer`}
@@ -115,8 +150,9 @@ export function Work() {
               </div>
             </figure>
           ))}
-          <VideoScrubCard />
+          {showVideoCard && <VideoScrubCard />}
         </div>
+        )}
       </div>
     </section>
   );

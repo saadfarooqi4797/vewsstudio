@@ -15,6 +15,7 @@ import { Route as ServicesRouteImport } from './routes/services'
 import { Route as RefundPolicyRouteImport } from './routes/refund-policy'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as PayRouteImport } from './routes/pay'
+import { Route as PackagesRouteImport } from './routes/packages'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AllEyesRouteImport } from './routes/all-eyes'
 import { Route as AboutRouteImport } from './routes/about'
@@ -50,6 +51,11 @@ const PayRoute = PayRouteImport.update({
   path: '/pay',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PackagesRoute = PackagesRouteImport.update({
+  id: '/packages',
+  path: '/packages',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -76,6 +82,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/all-eyes': typeof AllEyesRoute
   '/contact': typeof ContactRoute
+  '/packages': typeof PackagesRoute
   '/pay': typeof PayRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/refund-policy': typeof RefundPolicyRoute
@@ -88,6 +95,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/all-eyes': typeof AllEyesRoute
   '/contact': typeof ContactRoute
+  '/packages': typeof PackagesRoute
   '/pay': typeof PayRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/refund-policy': typeof RefundPolicyRoute
@@ -101,6 +109,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/all-eyes': typeof AllEyesRoute
   '/contact': typeof ContactRoute
+  '/packages': typeof PackagesRoute
   '/pay': typeof PayRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/refund-policy': typeof RefundPolicyRoute
@@ -115,6 +124,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/all-eyes'
     | '/contact'
+    | '/packages'
     | '/pay'
     | '/privacy-policy'
     | '/refund-policy'
@@ -127,6 +137,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/all-eyes'
     | '/contact'
+    | '/packages'
     | '/pay'
     | '/privacy-policy'
     | '/refund-policy'
@@ -139,6 +150,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/all-eyes'
     | '/contact'
+    | '/packages'
     | '/pay'
     | '/privacy-policy'
     | '/refund-policy'
@@ -152,6 +164,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AllEyesRoute: typeof AllEyesRoute
   ContactRoute: typeof ContactRoute
+  PackagesRoute: typeof PackagesRoute
   PayRoute: typeof PayRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   RefundPolicyRoute: typeof RefundPolicyRoute
@@ -204,6 +217,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PayRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/packages': {
+      id: '/packages'
+      path: '/packages'
+      fullPath: '/packages'
+      preLoaderRoute: typeof PackagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contact': {
       id: '/contact'
       path: '/contact'
@@ -240,6 +260,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AllEyesRoute: AllEyesRoute,
   ContactRoute: ContactRoute,
+  PackagesRoute: PackagesRoute,
   PayRoute: PayRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   RefundPolicyRoute: RefundPolicyRoute,

@@ -30,22 +30,6 @@ function WorkPage() {
               Branding. Motion. AI Films.<br />Built to stop the scroll.
             </p>
           </div>
-
-          {/* Filter categories — scope what the studio actually produces */}
-          <div className="flex gap-2 flex-wrap pb-0 -mb-px">
-            {["All", "Branding", "Social Content", "AI Films", "Posters", "Motion"].map((cat, i) => (
-              <span
-                key={cat}
-                className={`text-xs uppercase tracking-widest px-4 py-2.5 border-t border-x border-ink/20 font-medium transition-colors cursor-default ${
-                  i === 0
-                    ? "bg-ink text-cream border-ink"
-                    : "text-ink/40 hover:text-ink/70"
-                }`}
-              >
-                {cat}
-              </span>
-            ))}
-          </div>
         </div>
       </header>
 
