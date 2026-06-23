@@ -106,7 +106,7 @@ const SAAD_TAUNTS = [
 // A single hidden key (see EasterEggProvider, id "key") lives on /all-eyes. Entering
 // the combo without it first only triggers a one-time preview that reverts afterward;
 // finding the key first makes the combo's reveal permanent, no revert.
-const SAAD_LOCKED_MESSAGE = "↑ ↓ ← → ↑ ↑ ↓ ↓ ← ← → →\n\ntype it. see what happens.";
+const SAAD_LOCKED_MESSAGE = "↑ ↓ ← → ↑ ↑ ↓ ↓ ← ← → →\n\ntype it (or swipe it). see what happens.";
 
 // Shown on the card after the first preview has reverted — replaces the combo
 // instructions, since by then the visitor already knows them.
@@ -236,21 +236,55 @@ function AboutPage() {
     }, 5200);
   };
 
-  // Listens for the secret combo once the card is locked — ignored otherwise
+  // Listens for the secret combo once the card is locked — ignored otherwise.
+  // Accepts both arrow-key presses and swipe gestures (no keyboard on phones),
+  // feeding the same direction buffer either way.
   useEffect(() => {
     if (!saadLocked || saadFlipped) return;
     const buffer: string[] = [];
-    const onKey = (e: KeyboardEvent) => {
-      if (!e.key.startsWith("Arrow")) return;
-      e.preventDefault();
-      buffer.push(e.key);
+
+    const pushAndCheck = (direction: string) => {
+      buffer.push(direction);
       if (buffer.length > SAAD_COMBO.length) buffer.shift();
       if (buffer.length === SAAD_COMBO.length && buffer.every((k, i) => k === SAAD_COMBO[i])) {
         triggerChaos();
       }
     };
+
+    const onKey = (e: KeyboardEvent) => {
+      if (!e.key.startsWith("Arrow")) return;
+      e.preventDefault();
+      pushAndCheck(e.key);
+    };
+
+    let touchStart: { x: number; y: number } | null = null;
+    const onTouchStart = (e: TouchEvent) => {
+      const t = e.touches[0];
+      touchStart = { x: t.clientX, y: t.clientY };
+    };
+    const onTouchEnd = (e: TouchEvent) => {
+      if (!touchStart) return;
+      const t = e.changedTouches[0];
+      const dx = t.clientX - touchStart.x;
+      const dy = t.clientY - touchStart.y;
+      touchStart = null;
+      const absX = Math.abs(dx);
+      const absY = Math.abs(dy);
+      if (Math.max(absX, absY) < 30) return; // ignore taps / tiny jitters
+      const direction = absX > absY
+        ? (dx > 0 ? "ArrowRight" : "ArrowLeft")
+        : (dy > 0 ? "ArrowDown" : "ArrowUp");
+      pushAndCheck(direction);
+    };
+
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("touchend", onTouchEnd, { passive: true });
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchend", onTouchEnd);
+    };
   }, [saadLocked, saadFlipped]);
 
   const handleSaadClick = () => {
