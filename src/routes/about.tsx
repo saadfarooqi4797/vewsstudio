@@ -106,7 +106,7 @@ const SAAD_TAUNTS = [
 // A single hidden key (see EasterEggProvider, id "key") lives on /all-eyes. Entering
 // the combo without it first only triggers a one-time preview that reverts afterward;
 // finding the key first makes the combo's reveal permanent, no revert.
-const SAAD_LOCKED_MESSAGE = "↑ ↓ ← → ↑ ↑ ↓ ↓ ← ← → →\n\ntype it (or swipe it). see what happens.";
+const SAAD_LOCKED_MESSAGE = "↑ ↓ ← → ↑ ↑ ↓ ↓ ← ← → →\n\ntype it, or swipe right here on this card.";
 
 // Shown on the card after the first preview has reverted — replaces the combo
 // instructions, since by then the visitor already knows them.
@@ -257,10 +257,19 @@ function AboutPage() {
       pushAndCheck(e.key);
     };
 
+    // Swipe detection is scoped to the card itself (not the whole window) — a
+    // global listener with passive:true can't block native scroll, so every
+    // ordinary page scroll on a phone was also being read as a swipe and
+    // polluting the buffer. Listening only on the card, with passive:false so
+    // we can suppress scroll while a touch is in progress there, fixes that
+    // without affecting scrolling anywhere else on the page.
     let touchStart: { x: number; y: number } | null = null;
     const onTouchStart = (e: TouchEvent) => {
       const t = e.touches[0];
       touchStart = { x: t.clientX, y: t.clientY };
+    };
+    const onTouchMove = (e: TouchEvent) => {
+      if (touchStart) e.preventDefault();
     };
     const onTouchEnd = (e: TouchEvent) => {
       if (!touchStart) return;
@@ -270,20 +279,24 @@ function AboutPage() {
       touchStart = null;
       const absX = Math.abs(dx);
       const absY = Math.abs(dy);
-      if (Math.max(absX, absY) < 30) return; // ignore taps / tiny jitters
+      if (Math.max(absX, absY) < 24) return; // ignore taps / tiny jitters
       const direction = absX > absY
         ? (dx > 0 ? "ArrowRight" : "ArrowLeft")
         : (dy > 0 ? "ArrowDown" : "ArrowUp");
       pushAndCheck(direction);
     };
 
+    const swipeTarget = cardRefs.current.get("saad");
+
     window.addEventListener("keydown", onKey);
-    window.addEventListener("touchstart", onTouchStart, { passive: true });
-    window.addEventListener("touchend", onTouchEnd, { passive: true });
+    swipeTarget?.addEventListener("touchstart", onTouchStart, { passive: true });
+    swipeTarget?.addEventListener("touchmove", onTouchMove, { passive: false });
+    swipeTarget?.addEventListener("touchend", onTouchEnd, { passive: true });
     return () => {
       window.removeEventListener("keydown", onKey);
-      window.removeEventListener("touchstart", onTouchStart);
-      window.removeEventListener("touchend", onTouchEnd);
+      swipeTarget?.removeEventListener("touchstart", onTouchStart);
+      swipeTarget?.removeEventListener("touchmove", onTouchMove);
+      swipeTarget?.removeEventListener("touchend", onTouchEnd);
     };
   }, [saadLocked, saadFlipped]);
 
