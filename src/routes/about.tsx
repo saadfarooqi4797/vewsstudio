@@ -211,17 +211,34 @@ function AboutPage() {
     prevRectsRef.current = null;
   }, [ringSlots, chaosRevealed]);
 
+  const scrollLockRaf = useRef<number | null>(null);
+
+  // Forcibly re-pins the scroll position on every frame, fighting whatever
+  // mechanism (focus-follow, layout-shift compensation, etc.) is causing
+  // mobile browsers to jump the page during the layout changes below.
+  // Blur/overflow:hidden weren't reliable enough across browsers on their own.
+  const lockScrollTo = (y: number) => {
+    const tick = () => {
+      if (window.scrollY !== y) window.scrollTo(0, y);
+      scrollLockRaf.current = requestAnimationFrame(tick);
+    };
+    scrollLockRaf.current = requestAnimationFrame(tick);
+  };
+
+  const unlockScroll = () => {
+    if (scrollLockRaf.current !== null) {
+      cancelAnimationFrame(scrollLockRaf.current);
+      scrollLockRaf.current = null;
+    }
+  };
+
   const triggerChaos = () => {
     if (chaosActive || saadFlipped) return;
 
-    // On phones, the card that was just swiped holds focus. When its layout
-    // flips to position:absolute a moment later, mobile browsers try to keep
-    // the focused element in view and scroll the whole page to wherever it
-    // ends up — usually the top. Blurring it, plus locking body scroll for
-    // the whole sequence, stops that from happening.
     (document.activeElement as HTMLElement | null)?.blur();
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    lockScrollTo(window.scrollY);
 
     setChaosShaking(true);
 
@@ -244,8 +261,12 @@ function AboutPage() {
         setHasSeenPreview(true);
       }
       document.body.style.overflow = prevOverflow;
+      unlockScroll();
     }, 5200);
   };
+
+  // Safety: release the scroll lock if the component unmounts mid-sequence
+  useEffect(() => () => unlockScroll(), []);
 
   // Listens for the secret combo once the card is locked — ignored otherwise.
   // Accepts both arrow-key presses and swipe gestures (no keyboard on phones),
