@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
@@ -11,7 +10,6 @@ import {
 } from "@tanstack/react-router";
 import { Nav } from "@/components/sections/Nav";
 import { EasterEggProvider } from "@/components/EasterEggProvider";
-import { Intro } from "@/components/Intro";
 
 import appCss from "../styles.css?url";
 
@@ -137,25 +135,9 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
-  const [introDone, setIntroDone] = useState(false);
-
-  useEffect(() => {
-    if (sessionStorage.getItem("vews-intro-played") === "1") setIntroDone(true);
-  }, []);
-
-  const handleIntroDone = () => {
-    try { sessionStorage.setItem("vews-intro-played", "1"); } catch {}
-    setIntroDone(true);
-  };
-
   return (
     <QueryClientProvider client={queryClient}>
       <EasterEggProvider>
-        {/* Intro rendered here — outside the animated div so CSS transform
-            on .page-enter cannot trap its position:fixed stacking context */}
-        {pathname === "/" && !introDone && (
-          <Intro onDone={handleIntroDone} />
-        )}
         <Nav />
         <div key={pathname} className="page-enter">
           <Outlet />
