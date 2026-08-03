@@ -56,33 +56,41 @@ export function Hero() {
             <h1 className="text-[13vw] md:text-[9.5vw] lg:text-[8vw] leading-[0.88] mb-10 md:mb-12">
 
               {/* Line 1 */}
-              <span className="block">Visuals that</span>
+              <span className="block">We Turn</span>
 
-              {/* Line 2 — "stop" italic only, doodle-lines beneath */}
-              <span className="block">
+              {/* Line 2 */}
+              <span className="block">Vision Into</span>
+
+              {/* Line 3 — "Visibility." italic, doodle-lines beneath */}
+              <span className="block pb-8 md:pb-10">
                 <span className="relative inline-block">
-                  <span className="italic font-display">stop</span>
+                  <span className="italic font-display">Visibility.</span>
                   <img
                     src={doodleLines}
                     alt="" aria-hidden="true"
                     className="absolute left-0 w-[118%] pointer-events-none select-none"
-                    style={{ top: "88%", height: "auto", opacity: 0.5 }}
+                    style={{ top: "80%", height: "auto", opacity: 0.5 }}
                   />
                 </span>
-                {" "}the
               </span>
-
-              {/* Line 3 */}
-              <span className="block">scroll.</span>
             </h1>
 
             {/* Description */}
-            <p className="text-base md:text-lg leading-relaxed text-ink/70 mb-7 max-w-[400px]">
-              We're{" "}
-              <span className="font-display italic font-black text-ink">VEWS Studio</span>
-              {" "}— a creative collective making video, design, and AI-driven
-              content for brands that refuse to look like everybody else.
-            </p>
+            <div className="text-base md:text-lg leading-relaxed text-ink/70 mb-7 max-w-[480px] space-y-4">
+              <p className="font-bold text-ink">
+                Your brand deserves more than attention. It deserves recognition.
+              </p>
+              <p>
+                At <span className="font-display italic font-black text-ink">VEWS Studio</span>,
+                {" "}we help businesses transform ideas into brands people remember. Through
+                strategy, design, content, AI-powered creativity, and digital storytelling,
+                we create experiences that don't just look exceptional, they make an impact.
+              </p>
+              <p>
+                Whether you're building a brand from the ground up or taking an established
+                business to the next level, we're here to help you get seen, heard, and remembered.
+              </p>
+            </div>
 
             {/* CTA */}
             <div className="flex items-center gap-4 flex-wrap pb-12 md:pb-20">
@@ -92,18 +100,18 @@ export function Hero() {
                 className="w-9 pointer-events-none select-none shrink-0"
                 style={{ transform: "rotate(-22deg)" }}
               />
-              <a
-                href="#contact"
+              <Link
+                to="/contact"
                 className="bg-ink text-cream px-6 py-3 font-bold ink-border shadow-hard hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none transition-all"
               >
-                Talk To Us
-              </a>
-              <a
-                href="#work"
+                Start Your Project
+              </Link>
+              <Link
+                to="/work"
                 className="px-4 py-3 font-bold underline underline-offset-4 decoration-2 hover:text-blush transition-colors"
               >
-                View work ↓
-              </a>
+                View Our Work
+              </Link>
             </div>
           </div>
 
